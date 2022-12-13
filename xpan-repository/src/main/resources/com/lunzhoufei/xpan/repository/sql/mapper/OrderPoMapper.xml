@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lunzhoufei.xpan.repository.sql.mapper.OrderPoMapper" >
+  <resultMap id="BaseResultMap" type="com.lunzhoufei.xpan.common.po.OrderPo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
+    <result column="account_sn" property="accountSn" jdbcType="VARCHAR" />
+    <result column="record_ts" property="recordTs" jdbcType="BIGINT" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_image" property="goodsImage" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="display_amount" property="displayAmount" jdbcType="INTEGER" />
+    <result column="refund_amount" property="refundAmount" jdbcType="INTEGER" />
+    <result column="payment" property="payment" jdbcType="INTEGER" />
+    <result column="mkt_tr_sc" property="mktTrSc" jdbcType="VARCHAR" />
+    <result column="mkt_tr_domain" property="mktTrDomain" jdbcType="VARCHAR" />
+    <result column="activity_sn" property="activitySn" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, `uid`, order_sn, account_sn, record_ts, goods_name, goods_image, order_type, 
+    display_amount, refund_amount, payment, mkt_tr_sc, mkt_tr_domain, activity_sn, extra, 
+    created_at, updated_at
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lunzhoufei.xpan.common.po.OrderPoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lunzhoufei.xpan.common.po.OrderPoExample" >
+    delete from order_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lunzhoufei.xpan.common.po.OrderPo" >
+    insert into order_record (id, `uid`, order_sn, 
+      account_sn, record_ts, goods_name, 
+      goods_image, order_type, display_amount, 
+      refund_amount, payment, mkt_tr_sc, 
+      mkt_tr_domain, activity_sn, extra, 
+      created_at, updated_at)
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, 
+      #{accountSn,jdbcType=VARCHAR}, #{recordTs,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsImage,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}, #{displayAmount,jdbcType=INTEGER}, 
+      #{refundAmount,jdbcType=INTEGER}, #{payment,jdbcType=INTEGER}, #{mktTrSc,jdbcType=VARCHAR}, 
+      #{mktTrDomain,jdbcType=VARCHAR}, #{activitySn,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lunzhoufei.xpan.common.po.OrderPo" >
+    insert into order_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        `uid`,
+      </if>
+      <if test="orderSn != null" >
+        order_sn,
+      </if>
+      <if test="accountSn != null" >
+        account_sn,
+      </if>
+      <if test="recordTs != null" >
+        record_ts,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsImage != null" >
+        goods_image,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="displayAmount != null" >
+        display_amount,
+      </if>
+      <if test="refundAmount != null" >
+        refund_amount,
+      </if>
+      <if test="payment != null" >
+        payment,
+      </if>
+      <if test="mktTrSc != null" >
+        mkt_tr_sc,
+      </if>
+      <if test="mktTrDomain != null" >
+        mkt_tr_domain,
+      </if>
+      <if test="activitySn != null" >
+        activity_sn,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null" >
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="accountSn != null" >
+        #{accountSn,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTs != null" >
+        #{recordTs,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsImage != null" >
+        #{goodsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="displayAmount != null" >
+        #{displayAmount,jdbcType=INTEGER},
+      </if>
+      <if test="refundAmount != null" >
+        #{refundAmount,jdbcType=INTEGER},
+      </if>
+      <if test="payment != null" >
+        #{payment,jdbcType=INTEGER},
+      </if>
+      <if test="mktTrSc != null" >
+        #{mktTrSc,jdbcType=VARCHAR},
+      </if>
+      <if test="mktTrDomain != null" >
+        #{mktTrDomain,jdbcType=VARCHAR},
+      </if>
+      <if test="activitySn != null" >
+        #{activitySn,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lunzhoufei.xpan.common.po.OrderPoExample" resultType="java.lang.Integer" >
+    select count(*) from order_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.uid != null" >
+        `uid` = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderSn != null" >
+        order_sn = #{record.orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountSn != null" >
+        account_sn = #{record.accountSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordTs != null" >
+        record_ts = #{record.recordTs,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsName != null" >
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsImage != null" >
+        goods_image = #{record.goodsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null" >
+        order_type = #{record.orderType,jdbcType=INTEGER},
+      </if>
+      <if test="record.displayAmount != null" >
+        display_amount = #{record.displayAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundAmount != null" >
+        refund_amount = #{record.refundAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.payment != null" >
+        payment = #{record.payment,jdbcType=INTEGER},
+      </if>
+      <if test="record.mktTrSc != null" >
+        mkt_tr_sc = #{record.mktTrSc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mktTrDomain != null" >
+        mkt_tr_domain = #{record.mktTrDomain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activitySn != null" >
+        activity_sn = #{record.activitySn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null" >
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedAt != null" >
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_record
+    set id = #{record.id,jdbcType=BIGINT},
+      `uid` = #{record.uid,jdbcType=BIGINT},
+      order_sn = #{record.orderSn,jdbcType=VARCHAR},
+      account_sn = #{record.accountSn,jdbcType=VARCHAR},
+      record_ts = #{record.recordTs,jdbcType=BIGINT},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_image = #{record.goodsImage,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=INTEGER},
+      display_amount = #{record.displayAmount,jdbcType=INTEGER},
+      refund_amount = #{record.refundAmount,jdbcType=INTEGER},
+      payment = #{record.payment,jdbcType=INTEGER},
+      mkt_tr_sc = #{record.mktTrSc,jdbcType=VARCHAR},
+      mkt_tr_domain = #{record.mktTrDomain,jdbcType=VARCHAR},
+      activity_sn = #{record.activitySn,jdbcType=VARCHAR},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lunzhoufei.xpan.common.po.OrderPo" >
+    update order_record
+    <set >
+      <if test="uid != null" >
+        `uid` = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null" >
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="accountSn != null" >
+        account_sn = #{accountSn,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTs != null" >
+        record_ts = #{recordTs,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsImage != null" >
+        goods_image = #{goodsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="displayAmount != null" >
+        display_amount = #{displayAmount,jdbcType=INTEGER},
+      </if>
+      <if test="refundAmount != null" >
+        refund_amount = #{refundAmount,jdbcType=INTEGER},
+      </if>
+      <if test="payment != null" >
+        payment = #{payment,jdbcType=INTEGER},
+      </if>
+      <if test="mktTrSc != null" >
+        mkt_tr_sc = #{mktTrSc,jdbcType=VARCHAR},
+      </if>
+      <if test="mktTrDomain != null" >
+        mkt_tr_domain = #{mktTrDomain,jdbcType=VARCHAR},
+      </if>
+      <if test="activitySn != null" >
+        activity_sn = #{activitySn,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lunzhoufei.xpan.common.po.OrderPo" >
+    update order_record
+    set `uid` = #{uid,jdbcType=BIGINT},
+      order_sn = #{orderSn,jdbcType=VARCHAR},
+      account_sn = #{accountSn,jdbcType=VARCHAR},
+      record_ts = #{recordTs,jdbcType=BIGINT},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_image = #{goodsImage,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      display_amount = #{displayAmount,jdbcType=INTEGER},
+      refund_amount = #{refundAmount,jdbcType=INTEGER},
+      payment = #{payment,jdbcType=INTEGER},
+      mkt_tr_sc = #{mktTrSc,jdbcType=VARCHAR},
+      mkt_tr_domain = #{mktTrDomain,jdbcType=VARCHAR},
+      activity_sn = #{activitySn,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lunzhoufei.xpan.common.po.OrderPoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

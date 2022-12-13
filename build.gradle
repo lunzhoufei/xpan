@@ -1,0 +1,146 @@
+ext {
+	springBootVersion = "2.7.6"
+	springAspectsVersion = "5.3.24"
+	lombokVersion = "1.18.8"
+	kafkaStreamVersion = "3.3.1"
+	jacksonVersion = "2.14.1"
+	commonLangVersion = "3.12.0"
+	commonCollectionsVersion = "3.2.2"
+	guavaVersion = "31.1-jre"
+	mybatisVersion = "3.5.11"
+	mybatisSpringVersion = "2.1.0"
+}
+
+buildscript {
+	ext {
+		springBootVersion = "2.7.6"
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+	}
+}
+
+allprojects {
+	apply plugin: 'base'
+	apply plugin: 'java'
+
+	group = 'com.lunzhoufei'
+	version = '0.0.1-SNAPSHOT'
+
+	repositories {
+		mavenCentral()
+	}
+
+	configurations {
+		externalLibs
+		mybatisGenerator
+	}
+
+}
+
+subprojects {
+	dependencies {
+		implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+		implementation "org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion"
+		implementation "org.springframework:spring-aspects:$springAspectsVersion"
+		implementation 'org.apache.kafka:kafka-streams:3.3.1'
+		implementation 'org.springframework.kafka:spring-kafka:2.9.3'
+		implementation "org.apache.commons:commons-lang3:$commonLangVersion"
+		implementation "commons-collections:commons-collections:$commonCollectionsVersion"
+
+		// data manipulator
+		implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+		implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+		implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+
+		implementation "com.google.guava:guava:$guavaVersion"
+
+//		implementation "org.mybatis.generator:mybatis-generator-core:1.3.2"
+//		implementation "mysql:mysql-connector-java:8.0.31"
+		// 第三方组件
+		// implementation "io.lettuce:lettuce-core:$lettuceVersion"
+
+		compileOnly 'org.projectlombok:lombok:1.18.8'
+		runtimeOnly 'io.micrometer:micrometer-registry-influx:1.10.1'
+		annotationProcessor 'org.projectlombok:lombok:1.18.8'
+//        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//        testImplementation 'org.springframework.kafka:spring-kafka-test'
+//        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+//        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+	}
+}
+
+project(":xpan-api") {
+	jar.archiveName("xpan-api.jar")
+
+	dependencies {
+		implementation project(":xpan-contract")
+		implementation project(":xpan-common")
+		implementation project(":xpan-core")
+		implementation project(":xpan-repository")
+		runtimeOnly project(":xpan-core")
+		runtimeOnly project(":xpan-repository")
+		implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+		implementation "org.springframework.boot:spring-boot-starter-aop:$springBootVersion"
+		implementation "org.springframework.boot:spring-boot-starter-cache:$springBootVersion"
+		compileOnly 'org.projectlombok:lombok:1.18.8'
+	}
+
+}
+
+project(":xpan-bot") {
+	dependencies {
+		implementation project(":xpan-contract")
+		implementation project(":xpan-common")
+		implementation project(":xpan-core")
+		implementation project(":xpan-repository")
+		implementation 'com.github.kshashov:spring-boot-starter-telegram:0.27'
+	}
+}
+
+
+project(":xpan-common") {
+	dependencies {
+		implementation project(":xpan-contract")
+	}
+}
+
+project(":xpan-core") {
+	dependencies {
+		implementation project(":xpan-contract")
+		implementation project(":xpan-common")
+		implementation project(":xpan-repository")
+		implementation 'com.github.kshashov:spring-boot-starter-telegram:0.27'
+	}
+}
+
+project(":xpan-repository") {
+	dependencies {
+		implementation project(":xpan-contract")
+		implementation project(":xpan-common")
+		implementation "org.mybatis:mybatis:$mybatisVersion"
+		implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0"
+		implementation "org.mybatis:mybatis-spring:$mybatisSpringVersion"
+		implementation "mysql:mysql-connector-java:8.0.31"
+	}
+}
+
+project(":xpan-tool") {
+	dependencies {
+//		mybatisGenerator "org.mybatis.generator:mybatis-generator-core:1.3.2"
+//		mybatisGenerator "mysql:mysql-connector-java:8.0.31"
+		implementation "org.mybatis:mybatis:$mybatisVersion"
+		implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0"
+		implementation "org.mybatis:mybatis-spring:$mybatisSpringVersion"
+		implementation "org.mybatis.generator:mybatis-generator-core:1.3.2"
+		implementation "mysql:mysql-connector-java:8.0.31"
+		// implementation "mysql:mysql-connector-java:5.1.49"
+	}
+}
+

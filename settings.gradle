@@ -1,0 +1,11 @@
+rootProject.name = 'xpan'
+include 'xpan-common'
+include 'xpan-api'
+include 'xpan-core'
+include 'xpan-contract'
+include 'xpan-repository'
+include 'xpan-integration'
+include 'xpan-tool'
+include 'xpan-bot'
+include 'xpan-task'
+

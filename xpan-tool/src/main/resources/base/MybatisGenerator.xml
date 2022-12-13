@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+    PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--<classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />-->
+
+    <context id="Mybatis3Context" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="autoDelimitKeywords" value="true"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+<!--        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/vip?useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;nullCatalogMeansCurrent=true"
+                        userId="fez"
+                        password="jjfjj">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+<!--        <javaModelGenerator targetPackage="com.lunzhoufei.xpan.common.po"-->
+<!--                            targetProject="/Users/lunzhoufei/IdeaProjects/xpan/src/main/java">-->
+        <javaModelGenerator targetPackage="com.lunzhoufei.xpan.common.po"
+                            targetProject="xpan-common/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.lunzhoufei.xpan.repository.sql.mapper"
+                         targetProject="xpan-repository/src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lunzhoufei.xpan.repository.sql.mapper"
+                             targetProject="xpan-repository/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+<!--        Create Table: CREATE TABLE `vip_xpan` (-->
+<!--        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '????',-->
+<!--        `uid` bigint(20) unsigned NOT NULL COMMENT 'user id',-->
+<!--        `play_num` bigint(20) unsigned NOT NULL COMMENT 'play num',-->
+<!--        `end_time` datetime NOT NULL COMMENT '??????',-->
+<!--        `withdraw_time` datetime DEFAULT NULL COMMENT '????',-->
+<!--        `strategy` varchar(127) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '????',-->
+<!--        `premium_play_num` bigint(20) unsigned DEFAULT NULL COMMENT '???????play num',-->
+<!--        `privilege_expire_time` datetime DEFAULT NULL COMMENT '????????',-->
+<!--        `open_type` varchar(127) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '????',-->
+<!--        `adjust_ext` varchar(1023) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '????????',-->
+<!--        `award_amount` bigint(20) DEFAULT NULL COMMENT '????',-->
+<!--        `misc` varchar(1023) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '????',-->
+<!--        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '????',-->
+<!--        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '????',-->
+<!--        `start_time` datetime DEFAULT NULL,-->
+<!--        PRIMARY KEY (`id`),-->
+<!--        UNIQUE KEY `uk_uid_play_num` (`uid`,`play_num`),-->
+<!--        KEY `idx_created_at` (`created_at`),-->
+<!--        KEY `idx_updated_at` (`updated_at`)-->
+<!--        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='????????????'-->
+<!--        <table tableName="vip_xpan" domainObjectName="XpanPeriodRecord" enableCountByExample="false"-->
+<!--               enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false">-->
+<!--        <table tableName="vip_xpan" domainObjectName="XpanPeriodRecord">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="uid" javaType="Long"/>-->
+<!--            <columnOverride column="play_num" javaType="Integer"/>-->
+<!--            <columnOverride column="strategy" javaType="String"/>-->
+<!--            <columnOverride column="open_type" javaType="String"/>-->
+<!--            <columnOverride column="misc" javaType="String"/>-->
+<!--            <columnOverride column="start_time" javaType="Date"/>-->
+<!--            <columnOverride column="end_time" javaType="Date"/>-->
+<!--            <columnOverride column="withdraw_time" javaType="Date"/>-->
+<!--            <columnOverride column="created_at" javaType="Date"/>-->
+<!--            <columnOverride column="updated_at" javaType="Date"/>-->
+<!--        </table>-->
+
+<!--        CREATE TABLE `order_record` (-->
+<!--        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,-->
+<!--        `uid` bigint(20) unsigned NOT NULL,-->
+<!--        `order_sn` varchar(63) NOT NULL DEFAULT '',-->
+<!--        `account_sn` varchar(63) NOT NULL DEFAULT '',-->
+<!--        `record_ts` bigint(20) unsigned NOT NULL,-->
+<!--        `goods_name` varchar(127) NOT NULL DEFAULT '',-->
+<!--        `goods_image` varchar(255) NOT NULL DEFAULT '',-->
+<!--        `order_type` int(11) NOT NULL DEFAULT '0',-->
+<!--        `display_amount` int(11) NOT NULL,-->
+<!--        `refund_amount` int(11) NOT NULL DEFAULT '0',-->
+<!--        `payment` int(11) NOT NULL,-->
+<!--        `mkt_tr_sc` varchar(63) NOT NULL DEFAULT '',-->
+<!--        `mkt_tr_domain` varchar(7) NOT NULL DEFAULT '',-->
+<!--        `activity_sn` varchar(63) NOT NULL DEFAULT '',-->
+<!--        `extra` varchar(511) NOT NULL DEFAULT '',-->
+<!--        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,-->
+<!--        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,-->
+<!--        PRIMARY KEY (`id`),-->
+<!--        UNIQUE KEY `uk_uid_order_sn` (`uid`,`order_sn`),-->
+<!--        KEY `idx_uid_ts` (`uid`,`record_ts`),-->
+<!--        KEY `idx_created_at` (`created_at`),-->
+<!--        KEY `idx_updated_at` (`updated_at`)-->
+<!--        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;-->
+
+        <table tableName="order_record" domainObjectName="OrderPo">
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="uid" javaType="Long"/>-->
+<!--            <columnOverride column="order_sn" javaType="String"/>-->
+<!--            <columnOverride column="account_sn" javaType="String"/>-->
+<!--            <columnOverride column="record_ts" javaType="Long"/>-->
+<!--            <columnOverride column="goods_name" javaType="String"/>-->
+<!--            <columnOverride column="goods_image" javaType="String"/>-->
+<!--            <columnOverride column="order_type" javaType="Integer"/>-->
+<!--            <columnOverride column="display_amount" javaType="Integer"/>-->
+<!--            <columnOverride column="refund_amount" javaType="Integer"/>-->
+<!--            <columnOverride column="payment" javaType="Integer"/>-->
+<!--            <columnOverride column="mkt_tr_sc" javaType="String"/>-->
+<!--            <columnOverride column="mkt_tr_domain" javaType="String"/>-->
+<!--            <columnOverride column="activity_sn" javaType="String"/>-->
+<!--            <columnOverride column="extra" javaType="String"/>-->
+<!--            <columnOverride column="created_at" javaType="Date"/>-->
+<!--            <columnOverride column="updated_at" javaType="Date"/>-->
+        </table>
+
+    </context>
+</generatorConfiguration>
