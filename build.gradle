@@ -1,16 +1,3 @@
-ext {
-	springBootVersion = "2.7.6"
-	springAspectsVersion = "5.3.24"
-	lombokVersion = "1.18.8"
-	kafkaStreamVersion = "3.3.1"
-	jacksonVersion = "2.14.1"
-	commonLangVersion = "3.12.0"
-	commonCollectionsVersion = "3.2.2"
-	guavaVersion = "31.1-jre"
-	mybatisVersion = "3.5.11"
-	mybatisSpringVersion = "2.1.0"
-}
-
 buildscript {
 	ext {
 		springBootVersion = "2.7.6"
@@ -25,12 +12,34 @@ buildscript {
 	}
 }
 
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.6' apply false
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE' apply false
+}
+
+ext {
+	springBootVersion = "2.7.6"
+	springAspectsVersion = "5.3.24"
+	lombokVersion = "1.18.8"
+	kafkaStreamVersion = "3.3.1"
+	jacksonVersion = "2.14.1"
+	commonLangVersion = "3.12.0"
+	commonCollectionsVersion = "3.2.2"
+	guavaVersion = "31.1-jre"
+	mybatisVersion = "3.5.11"
+	mybatisSpringVersion = "2.1.0"
+}
+
 allprojects {
 	apply plugin: 'base'
 	apply plugin: 'java'
+	apply plugin: 'maven-publish'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
 
 	group = 'com.lunzhoufei'
-	version = '0.0.1-SNAPSHOT'
+	version = '0.0.7-SNAPSHOT'
 
 	repositories {
 		mavenCentral()
@@ -39,6 +48,25 @@ allprojects {
 	configurations {
 		externalLibs
 		mybatisGenerator
+	}
+
+	task sourceJar(type: Jar) {
+		from sourceSets.main.allJava
+	}
+
+	tasks.bootJar {
+		enabled = false;
+	}
+
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				from components.java
+				artifact sourceJar {
+					classifier "sources"
+				}
+			}
+		}
 	}
 
 }
@@ -66,7 +94,7 @@ subprojects {
 		// implementation "io.lettuce:lettuce-core:$lettuceVersion"
 
 		compileOnly 'org.projectlombok:lombok:1.18.8'
-		runtimeOnly 'io.micrometer:micrometer-registry-influx:1.10.1'
+//		runtimeOnly 'io.micrometer:micrometer-registry-influx:1.10.1'
 		annotationProcessor 'org.projectlombok:lombok:1.18.8'
 //        testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //        testImplementation 'org.springframework.kafka:spring-kafka-test'
@@ -77,21 +105,28 @@ subprojects {
 }
 
 project(":xpan-api") {
-	jar.archiveName("xpan-api.jar")
-
+//	jar.archiveName = "xpan-api.jar"
+//	version = '0.0.1-SNAPSHOT'
+//	jar {
+//		manifest {
+//			attributes 'Main-Class': 'com.lunzhoufei.xpan.api.ApiAppContext'
+//		}
+//	}
 	dependencies {
 		implementation project(":xpan-contract")
 		implementation project(":xpan-common")
 		implementation project(":xpan-core")
 		implementation project(":xpan-repository")
-		runtimeOnly project(":xpan-core")
-		runtimeOnly project(":xpan-repository")
 		implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 		implementation "org.springframework.boot:spring-boot-starter-aop:$springBootVersion"
 		implementation "org.springframework.boot:spring-boot-starter-cache:$springBootVersion"
 		compileOnly 'org.projectlombok:lombok:1.18.8'
 	}
 
+	// 构建需要启动的jar包(main入口)
+	tasks.bootJar {
+		enabled = true;
+	}
 }
 
 project(":xpan-bot") {
@@ -104,11 +139,22 @@ project(":xpan-bot") {
 	}
 }
 
+project(":xpan-contract") {
+	dependencies {
+		// implementation project(":xpan-contract")
+	}
+//	tasks.bootJar {
+//		enabled = false;
+//	}
+}
 
 project(":xpan-common") {
 	dependencies {
 		implementation project(":xpan-contract")
 	}
+//	tasks.bootJar {
+//		enabled = false;
+//	}
 }
 
 project(":xpan-core") {
@@ -118,6 +164,9 @@ project(":xpan-core") {
 		implementation project(":xpan-repository")
 		implementation 'com.github.kshashov:spring-boot-starter-telegram:0.27'
 	}
+//	tasks.bootJar {
+//		enabled = false;
+//	}
 }
 
 project(":xpan-repository") {
@@ -129,6 +178,9 @@ project(":xpan-repository") {
 		implementation "org.mybatis:mybatis-spring:$mybatisSpringVersion"
 		implementation "mysql:mysql-connector-java:8.0.31"
 	}
+//	tasks.bootJar {
+//		enabled = false;
+//	}
 }
 
 project(":xpan-tool") {
@@ -143,4 +195,10 @@ project(":xpan-tool") {
 		// implementation "mysql:mysql-connector-java:5.1.49"
 	}
 }
+
+// 关闭主项目的jar： 否则gradle :bootJar 会失败，因为找不到main函数类
+//tasks.bootJar {
+//	enabled = false;
+//}
+
 
