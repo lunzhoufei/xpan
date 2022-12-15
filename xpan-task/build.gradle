@@ -17,3 +17,13 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+// 是否生成 xxx.jar
+tasks.bootJar {
+    enabled = true;
+}
+
+// 是否生成 xxx-plain.jar
+tasks.jar {
+    enabled = false;
+}

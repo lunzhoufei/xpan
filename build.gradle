@@ -54,6 +54,7 @@ allprojects {
 		from sourceSets.main.allJava
 	}
 
+// 是否生成 xxx.jar
 	tasks.bootJar {
 		enabled = false;
 	}
@@ -127,6 +128,10 @@ project(":xpan-api") {
 	tasks.bootJar {
 		enabled = true;
 	}
+
+	tasks.jar {
+		enabled = false;
+	}
 }
 
 project(":xpan-bot") {
@@ -164,9 +169,6 @@ project(":xpan-core") {
 		implementation project(":xpan-repository")
 		implementation 'com.github.kshashov:spring-boot-starter-telegram:0.27'
 	}
-//	tasks.bootJar {
-//		enabled = false;
-//	}
 }
 
 project(":xpan-repository") {
